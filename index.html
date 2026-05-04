@@ -3476,10 +3476,10 @@
         <div class="reveal-r">
           <form onsubmit="handleForm(event)">
             <div class="cf">
-              <div class="ff"><label>Your Name</label><input type="text" placeholder="John Smith" required></div>
-              <div class="ff"><label>Email Address</label><input type="email" placeholder="john@company.com" required>
+              <div class="ff"><label for="user_name">Your Name</label><input type="text" id="user_name" name="user_name" placeholder="John Smith" required></div>
+              <div class="ff"><label for="user_email">Email Address</label><input type="email" id="user_email" name="user_email" placeholder="john@company.com" required>
               </div>
-              <div class="ff"><label>Project Type</label><select>
+              <div class="ff"><label for="project_type">Project Type</label><select id="project_type" name="project_type">
                   <option value="">Select a service...</option>
                   <option>Headless E-Commerce</option>
                   <option>Branding & Identity</option>
@@ -3487,7 +3487,7 @@
                   <option>Full Scale Package</option>
                   <option>Ongoing Partnership</option>
                 </select></div>
-              <div class="ff"><label>Budget Range</label><select>
+              <div class="ff"><label for="budget_range">Budget Range</label><select id="budget_range" name="budget_range">
                   <option value="">Select budget...</option>
                   <option>$5k – $15k</option>
                   <option>$15k – $30k</option>
@@ -3495,8 +3495,8 @@
                   <option>$60k+</option>
                   <option>Let's discuss</option>
                 </select></div>
-              <div class="ff"><label>Tell Us About Your Project</label><textarea
-                  placeholder="What are you building? Current stack? When do you need to launch?"></textarea></div>
+              <div class="ff"><label for="project_details">Tell Us About Your Project</label><textarea id="project_details"
+                  name="project_details" placeholder="What are you building? Current stack? When do you need to launch?"></textarea></div>
               <div class="cf-submit">
                 <div class="cf-note">We respond within <span>24 hours</span>. No spam.</div><button type="submit"
                   class="cf-btn" id="cfBtn">Send Message →</button>
