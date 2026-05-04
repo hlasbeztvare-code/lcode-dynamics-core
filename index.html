@@ -46,9 +46,9 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>L-Code Dynamics | Headless E-Commerce & Branding Agency — Prague</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Inter:wght@400;500;700;900&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,700;1,900&family=Share+Tech+Mono&display=swap"
-    rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Inter:wght@400;500;700;900&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,700;1,900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
     :root {
       --purple: #7c3aed;
@@ -2714,12 +2714,7 @@
 
     <nav id="mainNav">
       <a href="#hero" class="nav-logo">
-        <svg class="logo-svg" xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-          <rect x='0' y='0' width='100' height='100' fill='black' />
-          <path d='M20 20V80H60V70H35V20H20Z' fill='white' />
-          <path d='M80 20V80H50L45 75H70V20H80Z' fill='red' />
-          <rect x='42' y='42' width='16' height='16' fill='red' />
-        </svg>
+        <img src="/logo-nav.svg" class="logo-svg" alt="L-Code Logo" fetchpriority="high" width="34" height="34">
         L-<span class="g">Code</span> Dynamics<div class="nav-dot"></div>
       </a>
       <ul class="nav-links">
@@ -2753,13 +2748,12 @@
           style="opacity:0;animation:rUp .8s .05s cubic-bezier(.16,1,.3,1) forwards;margin-bottom:22px;display:flex;justify-content:center">
           <div
             style="background:rgba(255,255,255,0.35);backdrop-filter:blur(32px) saturate(1.4);-webkit-backdrop-filter:blur(32px) saturate(1.4);border:1px solid rgba(255,255,255,0.65);box-shadow:0 8px 40px rgba(124,58,237,0.15),0 2px 0 rgba(255,255,255,0.9) inset;border-radius:16px;padding:14px;display:inline-block">
-            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'
-              style="width:70px;height:70px;display:block;border-radius:8px">
-              <rect x='0' y='0' width='100' height='100' fill='black' />
-              <path d='M20 20V80H60V70H35V20H20Z' fill='white' />
-              <path d='M80 20V80H50L45 75H70V20H80Z' fill='red' />
-              <rect x='42' y='42' width='16' height='16' fill='red' />
-            </svg>
+            <img src="/logo.svg" 
+                 fetchpriority="high" 
+                 loading="eager"
+                 alt="L-Code Dynamics Logo" 
+                 width="70" height="70"
+                 style="width:70px;height:70px;display:block;border-radius:8px">
           </div>
         </div>
         <h1 class="hero-h1">L-Code<br><span class="stroke">Dynamics</span></h1>
