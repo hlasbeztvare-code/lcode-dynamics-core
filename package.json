@@ -1,27 +1,41 @@
 {
   "name": "l-code_dynamics-web",
   "version": "1.0.0",
-  "description": "",
+  "description": "L-Code Dynamics - Clean Luxury Headless Web Engine",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "prisma:generate": "prisma generate",
+    "postinstall": "prisma generate"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hlasbeztvare-code/co-cumis-ty-mrdko-gemini.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "L-Code Dynamics",
   "license": "ISC",
   "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/hlasbeztvare-code/co-cumis-ty-mrdko-gemini/issues"
-  },
-  "homepage": "https://github.com/hlasbeztvare-code/co-cumis-ty-mrdko-gemini#readme",
-  "devDependencies": {
-    "prisma": "^7.8.0"
-  },
   "dependencies": {
-    "@prisma/client": "^7.8.0"
+    "@prisma/client": "^6.2.0",
+    "@types/three": "^0.184.1",
+    "framer-motion": "^11.11.8",
+    "lucide-react": "^0.453.0",
+    "next": "^14.2.15",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "three": "^0.184.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "prisma": "^6.2.0",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.6.3"
   }
 }

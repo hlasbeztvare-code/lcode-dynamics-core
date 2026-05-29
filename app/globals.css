@@ -1,0 +1,205 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --red: #E30613;
+  --red-glow: rgba(227, 6, 19, 0.35);
+  --bg: #080808;
+  --bg2: #0d0d0d;
+  --text: #f0f0f0;
+  --muted: #555;
+  --border: rgba(255,255,255,0.07);
+}
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body), 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    text-transform: uppercase;
+  }
+
+  ::selection {
+    background: var(--red);
+    color: #fff;
+  }
+
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 2px; }
+}
+
+/* ============ TYPOGRAPHY ============ */
+.font-display {
+  font-family: var(--font-display), 'Bebas Neue', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+/* ============ MARQUEE ============ */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+
+/* ============ GLOW PULSE ============ */
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.08); }
+}
+
+/* ============ FLOAT ============ */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+.float { animation: float 6s ease-in-out infinite; }
+
+/* ============ COUNTER ============ */
+@keyframes count-in {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ BENTO GRID ============ */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto;
+  gap: 1px;
+  background: var(--border);
+}
+.bento-grid > * {
+  background: var(--bg2);
+}
+
+/* ============ GLASS CARD ============ */
+.glass {
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--border);
+}
+
+/* ============ RED LINE ============ */
+.red-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--red) 40%, var(--red) 60%, transparent 100%);
+}
+
+/* ============ NAV ============ */
+.nav-blur {
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  background: rgba(8,8,8,0.85);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ============ CTA BUTTON ============ */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 2.2rem;
+  background: var(--red);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+.btn-primary:hover {
+  box-shadow: 0 0 40px var(--red-glow), 0 0 80px rgba(227,6,19,0.2);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 2.2rem;
+  background: transparent;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.2);
+  cursor: pointer;
+  text-decoration: none;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  transition: border-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+.btn-outline:hover {
+  border-color: var(--red);
+  color: var(--red);
+  transform: translateY(-2px);
+}
+
+/* ============ HERO GRID OVERLAY ============ */
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+/* ============ STAT BADGE ============ */
+@keyframes badge-in {
+  from { opacity: 0; transform: translateY(20px) scale(0.9); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+/* ============ SECTION OVERLAYS — GlobalBackground shows through ============ */
+/* Use these on sections so PCB canvas is visible everywhere */
+.section-overlay {
+  position: relative;
+  z-index: 1;
+}
+.section-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 6, 6, 0.72);
+  pointer-events: none;
+  z-index: 0;
+}
+.section-overlay > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Calculator dark card */
+.calc-overlay {
+  background: rgba(10, 10, 10, 0.85) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Case study cards */
+.case-overlay {
+  background: rgba(10, 10, 10, 0.80) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
