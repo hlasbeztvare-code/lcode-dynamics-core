@@ -1,5 +1,6 @@
 name = "lcode-dynamics"
-pages_build_output_dir = ".next"
+pages_build_output_dir = "out"
+
 
 [[d1_databases]]
 binding = "LEADS_DB"

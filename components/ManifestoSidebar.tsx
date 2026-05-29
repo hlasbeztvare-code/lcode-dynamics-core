@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { motion, useScroll } from 'framer-motion'
 
-const manifestoLines = [
+const manifestoLinesCs = [
   { text: "Kdo jsme?", type: "heading" },
   { text: "Ahoj, jsme L-Code Dynamics. Nejsme korporát plný manažerů v oblecích, co tráví půlku dne na schůzkách o ničem. Jsme technologické studio, které staví weby, e-commerce řešení a digitální systémy tak, jak se to dělat má – čistě, logicky a bez kompromisů.", type: "p" },
   { text: "Celé to vzniklo z jednoduchého důvodu: už nás nebavilo koukat na pomalé, přeplácané weby a systémy, které drží pohromadě jen silou vůle a při větším náporu lehnou. Řekli jsme si, že to budeme dělat jinak. Na 300 %.", type: "p" },
@@ -19,7 +19,25 @@ const manifestoLines = [
   { text: "Pojďme postavit něco, co má hlavu a patu.", type: "final" }
 ];
 
-export default function ManifestoSidebar() {
+const manifestoLinesEn = [
+  { text: "Who are we?", type: "heading" },
+  { text: "Hi, we are L-Code Dynamics. We are not a corporate entity full of managers in suits spending half the day in pointless meetings. We are a technology studio building websites, e-commerce solutions, and digital systems the way they should be built – clean, logical, and without compromise.", type: "p" },
+  { text: "It all started for a simple reason: we were tired of looking at slow, bloated websites and systems held together by sheer willpower that crash under pressure. We decided to do it differently. At 300%.", type: "p" },
+  { text: "How we think", type: "subheading" },
+  { text: "Architecture: When we write code for you, we don't just think about making it work today. We look ahead. Our systems are bulletproof and ready for your business growth.", type: "bold-prefix" },
+  { text: "No bloat: We keep things \"lean & mean\". We don't waste your budget on nonsense; we focus on what actually makes you money.", type: "bold-prefix" },
+  { text: "Logic: Code isn't just a bunch of characters. It's a craft. We write it so clean there is no room for errors.", type: "bold-prefix" },
+  { text: "Psychology & Marketing: Code is useless if the website can't sell. We understand branding, human behavior, and how to create buzz online.", type: "bold-prefix" },
+  { text: "What we do", type: "subheading" },
+  { text: "We operate at the bleeding edge of technology. From blazing-fast headless e-commerce stores and dynamic websites for artists and personal brands, to complex backend infrastructures.", type: "p" },
+  { text: "Why work with us?", type: "subheading" },
+  { text: "When we agree on something, it's a done deal. We are straightforward, we don't play games, and we don't feed you empty phrases. If you want someone to blindly nod to broken concepts, we are not the right fit.", type: "p" },
+  { text: "But if you want a partner who looks at your project through the eyes of a senior developer and delivers a world-class product, you are in the right place.", type: "p" },
+  { text: "Let's build something that makes absolute sense.", type: "final" }
+];
+
+export default function ManifestoSidebar({ lang = 'cs' }: { lang?: string }) {
+  const manifestoLines = lang === 'en' ? manifestoLinesEn : manifestoLinesCs;
   const { scrollY } = useScroll();
   const [isTyping, setIsTyping] = useState(false);
   const [charIndex, setCharIndex] = useState(0);

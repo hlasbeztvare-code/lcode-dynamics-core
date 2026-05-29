@@ -1,16 +1,18 @@
 import type { Metadata } from 'next'
 import { Inter, Outfit } from 'next/font/google'
+import dynamic from 'next/dynamic'
 import '../globals.css'
-import BackgroundMatrix from '@/components/BackgroundMatrix'
-import BackgroundCircuits from '@/components/BackgroundCircuits'
+
+const BackgroundMatrix = dynamic(() => import('@/components/BackgroundMatrix'))
+const BackgroundCircuits = dynamic(() => import('@/components/BackgroundCircuits'))
 
 const inter = Inter({
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   variable: '--font-sans',
 })
 
 const outfit = Outfit({
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   variable: '--font-display',
 })
 
@@ -22,19 +24,24 @@ export const metadata: Metadata = {
   robots: 'index, follow',
 }
 
-export default function RootLayout({
+import SmoothScroll from '@/components/SmoothScroll'
+
+export default async function RootLayout({
   children,
   params,
 }: {
   children: React.ReactNode
-  params: { lang: string }
+  params: Promise<{ lang: string }>
 }) {
+  const { lang } = await params;
   return (
-    <html lang={params.lang || 'cs'} className={`${inter.variable} ${outfit.variable} scroll-smooth`}>
+    <html lang={lang || 'cs'} className={`${inter.variable} ${outfit.variable}`}>
       <body className="font-sans bg-white antialiased text-black select-none selection:bg-brand-red/20 selection:text-brand-red">
-        <BackgroundMatrix />
-        <BackgroundCircuits />
-        {children}
+        <SmoothScroll>
+          <BackgroundMatrix />
+          <BackgroundCircuits />
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   )

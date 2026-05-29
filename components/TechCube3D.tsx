@@ -24,7 +24,7 @@ export default function TechCube3D({ lang = 'cs' }: TechCube3DProps) {
   const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-55, 55]), spring)
 
   const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return
+    if (!ref.current || window.innerWidth <= 768) return
     const r = ref.current.getBoundingClientRect()
     mouseX.set((e.clientX - r.left) / r.width - 0.5)
     mouseY.set((e.clientY - r.top) / r.height - 0.5)
@@ -33,7 +33,7 @@ export default function TechCube3D({ lang = 'cs' }: TechCube3DProps) {
 
   const face = (transform: string, header: string, label: string, children: React.ReactNode, footer: string, coord: string) => (
     <div
-      className="absolute inset-0 backdrop-blur-md bg-neutral-950/5 border border-[#E30613]/20 shadow-[inset_0_0_40px_rgba(0,0,0,0.6)] flex flex-col justify-between p-[18px]"
+      className="absolute inset-0 bg-neutral-950/80 border border-[#E30613]/20 shadow-[inset_0_0_40px_rgba(0,0,0,0.6)] flex flex-col justify-between p-[18px]"
       style={{ transform, backfaceVisibility: 'visible', transformStyle: 'preserve-3d' }}
     >
       <div className="absolute inset-0 border border-[#E30613] pointer-events-none" style={glowEdge} />
@@ -74,12 +74,12 @@ export default function TechCube3D({ lang = 'cs' }: TechCube3DProps) {
           >
             {/* Massive Ambient Glow */}
             <div
-              className="absolute w-[800px] h-[800px] rounded-full blur-[120px] animate-pulse"
+              className="absolute w-[800px] h-[800px] rounded-full animate-pulse"
               style={{ background: 'radial-gradient(circle, rgba(227,6,19,0.35) 0%, rgba(227,6,19,0.08) 40%, transparent 70%)', animationDuration: '4s' }}
             />
             {/* Intense Core Glow */}
             <div
-              className="absolute w-[300px] h-[300px] rounded-full blur-[50px]"
+              className="absolute w-[300px] h-[300px] rounded-full"
               style={{ background: 'radial-gradient(circle, rgba(227,6,19,0.6) 0%, transparent 80%)' }}
             />
             

@@ -26,10 +26,7 @@ export default function BackgroundCircuits() {
             <stop offset="50%" stopColor="#E30613" stopOpacity="0.2" />
             <stop offset="100%" stopColor="#E30613" stopOpacity="0.02" />
           </linearGradient>
-          <filter id="circuit-glow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="4" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
+
         </defs>
 
         {/* Trace 1: From Cube Center (Approx 78% X, 50% Y) to Left and Up */}
@@ -48,8 +45,7 @@ export default function BackgroundCircuits() {
           strokeWidth="2"
           strokeDasharray="30 150"
           strokeDashoffset="0"
-          className="animate-circuit-dash-fast opacity-80"
-          style={{ filter: 'url(#circuit-glow)' }}
+          className="animate-circuit-dash-fast opacity-80 drop-shadow-[0_0_4px_#E30613]"
         />
 
         {/* Trace 2: From Cube Center (Approx 78% X, 50% Y) to Left and Down */}
@@ -68,8 +64,7 @@ export default function BackgroundCircuits() {
           strokeWidth="2"
           strokeDasharray="40 180"
           strokeDashoffset="100"
-          className="animate-circuit-dash-slow opacity-80"
-          style={{ filter: 'url(#circuit-glow)' }}
+          className="animate-circuit-dash-slow opacity-80 drop-shadow-[0_0_4px_#E30613]"
         />
 
         {/* Trace 3: Top Right Corner descending to Cube Area */}
@@ -124,8 +119,8 @@ export default function BackgroundCircuits() {
           cy="50%" 
           r="4" 
           fill="#E30613" 
-          style={{ filter: 'url(#circuit-glow)', animationDuration: '3s' }} 
-          className="animate-ping" 
+          style={{ animationDuration: '3s' }} 
+          className="animate-ping drop-shadow-[0_0_4px_#E30613]" 
         />
         <circle 
           cx="78%" 

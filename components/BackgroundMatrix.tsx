@@ -56,6 +56,9 @@ export default function BackgroundMatrix() {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
+      // Disable heavy physics on mobile
+      if (window.innerWidth <= 768) return;
+      
       // Normalize client coordinates relative to window width and height [-0.5, 0.5]
       const x = e.clientX / window.innerWidth - 0.5
       const y = e.clientY / window.innerHeight - 0.5
@@ -67,12 +70,14 @@ export default function BackgroundMatrix() {
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [mouseX, mouseY])
 
-  // Generate smooth spring-based parallax coordinate transforms for each particle
+  // Generate a single smooth spring for mouse coordinates
+  const smoothX = useSpring(mouseX, springConfig)
+  const smoothY = useSpring(mouseY, springConfig)
+
+  // Generate smooth parallax coordinate transforms for each particle from the single spring
   const particlePositions = PARTICLES.map(p => {
-    const rawX = useTransform(mouseX, [-0.5, 0.5], [-p.depthX, p.depthX])
-    const rawY = useTransform(mouseY, [-0.5, 0.5], [-p.depthY, p.depthY])
-    const px = useSpring(rawX, springConfig)
-    const py = useSpring(rawY, springConfig)
+    const px = useTransform(smoothX, [-0.5, 0.5], [-p.depthX, p.depthX])
+    const py = useTransform(smoothY, [-0.5, 0.5], [-p.depthY, p.depthY])
     return { x: px, y: py }
   })
 

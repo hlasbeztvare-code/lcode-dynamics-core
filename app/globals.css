@@ -203,3 +203,93 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
+
+/* =========================================================================
+   LIGHT MODE OVERRIDES FOR ENGLISH VERSION
+   We dynamically override Tailwind dark-mode utilities when lang="en" 
+   ========================================================================= */
+
+html[lang="en"] body {
+  background-color: #ffffff !important;
+  color: #111111 !important;
+}
+
+/* Backgrounds */
+html[lang="en"] .bg-\[\#050505\] {
+  background-color: #f8f9fa !important;
+}
+html[lang="en"] .bg-white\/5 {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+html[lang="en"] .bg-white\/10 {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+html[lang="en"] .bg-white\/\[0\.03\] {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+}
+html[lang="en"] .hover\:bg-white\/10:hover {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Texts */
+html[lang="en"] .text-white {
+  color: #111111 !important;
+}
+html[lang="en"] .text-white\/80 {
+  color: rgba(0, 0, 0, 0.8) !important;
+}
+html[lang="en"] .text-white\/70 {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+html[lang="en"] .text-white\/40 {
+  color: rgba(0, 0, 0, 0.4) !important;
+}
+html[lang="en"] .hover\:text-white:hover {
+  color: #111111 !important;
+}
+
+/* Buttons and Red Accents exception (Keep text white on red backgrounds) */
+html[lang="en"] .bg-\[\#E30613\] {
+  color: #ffffff !important;
+}
+html[lang="en"] .bg-\[\#E30613\] .text-white {
+  color: #ffffff !important;
+}
+html[lang="en"] .text-white.bg-\[\#E30613\] {
+  color: #ffffff !important;
+}
+
+/* Borders */
+html[lang="en"] .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+html[lang="en"] .border-white\/30 {
+  border-color: rgba(0, 0, 0, 0.2) !important;
+}
+html[lang="en"] .border-white\/\[0\.04\],
+html[lang="en"] .border-white\/\[0\.08\] {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Specific Section Overlays for Light Mode */
+html[lang="en"] .section-overlay::before {
+  background: rgba(255, 255, 255, 0.85);
+}
+html[lang="en"] .calc-overlay {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.05) !important;
+}
+html[lang="en"] .case-overlay {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+html[lang="en"] .nav-blur {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-bottom-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Keep shadows subtle on light background */
+html[lang="en"] .shadow-\[0_8px_32px_rgba\(0\,0\,0\,0\.3\)\] {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.05) !important;
+}

@@ -4,7 +4,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { Star } from 'lucide-react'
 
-const REVIEWS = [
+const REVIEWS_CS = [
   {
     name: "Jaroslav Hamáček",
     company: "FITNESS77",
@@ -27,11 +27,40 @@ const REVIEWS = [
   }
 ]
 
+const REVIEWS_EN = [
+  {
+    name: "Jaroslav Hamáček",
+    company: "FITNESS77",
+    text: "L-Code Dynamics built us an e-store that finally runs at 100%. The loading speed is incredible and our conversions jumped 30% in the very first month. True professionals.",
+  },
+  {
+    name: "Eva Langerová",
+    company: "Fotofiltry",
+    text: "We had specific requirements for dynamic visuals and frontend behavior. The L-Code team integrated everything flawlessly. Amazing design and perfect communication throughout.",
+  },
+  {
+    name: "Viktor M.",
+    company: "Shopum.sk",
+    text: "We needed a custom script for complex inventory sync and order automation that others couldn't figure out. They solved it quickly and efficiently. The script runs perfectly.",
+  },
+  {
+    name: "Tomáš Kratochvíl",
+    company: "AutoMoto Díly",
+    text: "The migration to the new architecture went without any downtime and revenues are growing. I especially appreciate their technical expertise and that they really look for the best solution for our business without forcing unnecessary features.",
+  }
+]
+
 interface ReviewsProps {
   renderRedWord: (text: string) => React.ReactNode
+  lang?: string
 }
 
-export default function ReviewsSection({ renderRedWord }: ReviewsProps) {
+export default function ReviewsSection({ renderRedWord, lang = 'cs' }: ReviewsProps) {
+  const isEn = lang === 'en'
+  const reviews = isEn ? REVIEWS_EN : REVIEWS_CS
+  const tag = isEn ? "What they say about us" : "Co o nás říkají"
+  const title = isEn ? "Client Reviews" : "Hodnocení klientů"
+
   return (
     <section id="recenze" className="max-w-7xl mx-auto px-6 md:px-12 py-24 md:py-32 border-t border-white/[0.04]">
       <div className="mb-16 text-center">
@@ -41,7 +70,7 @@ export default function ReviewsSection({ renderRedWord }: ReviewsProps) {
           viewport={{ once: true }}
           className="font-mono text-[10px] text-[#E30613] tracking-[0.3em] uppercase block mb-3"
         >
-          Co o nás říkají
+          {tag}
         </motion.span>
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
@@ -49,12 +78,12 @@ export default function ReviewsSection({ renderRedWord }: ReviewsProps) {
           viewport={{ once: true }}
           className="text-3xl md:text-5xl font-display font-extrabold tracking-tight uppercase text-white"
         >
-          {renderRedWord("Hodnocení klientů")}
+          {renderRedWord(title)}
         </motion.h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {REVIEWS.map((review, i) => (
+        {reviews.map((review, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0, y: 30 }}
