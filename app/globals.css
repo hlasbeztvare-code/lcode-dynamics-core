@@ -235,11 +235,20 @@ html[lang="en"] .hover\:bg-white\/10:hover {
 html[lang="en"] .text-white {
   color: #111111 !important;
 }
+html[lang="en"] .text-white\/90 {
+  color: rgba(0, 0, 0, 0.9) !important;
+}
 html[lang="en"] .text-white\/80 {
   color: rgba(0, 0, 0, 0.8) !important;
 }
 html[lang="en"] .text-white\/70 {
   color: rgba(0, 0, 0, 0.7) !important;
+}
+html[lang="en"] .text-white\/60 {
+  color: rgba(0, 0, 0, 0.6) !important;
+}
+html[lang="en"] .text-white\/50 {
+  color: rgba(0, 0, 0, 0.5) !important;
 }
 html[lang="en"] .text-white\/40 {
   color: rgba(0, 0, 0, 0.4) !important;
@@ -248,7 +257,37 @@ html[lang="en"] .hover\:text-white:hover {
   color: #111111 !important;
 }
 
-/* Buttons and Red Accents exception (Keep text white on red backgrounds) */
+/* Fix for English Menu (Red menu and disable mix-blend-difference) */
+html[lang="en"] .mix-blend-difference {
+  mix-blend-mode: normal !important;
+}
+
+/* Desktop and Mobile Menu Links -> RED */
+html[lang="en"] nav.fixed a,
+html[lang="en"] .fixed.inset-x-0.top-\[70px\] a:not(.bg-\[\#E30613\]) {
+  color: #E30613 !important;
+  opacity: 0.8;
+}
+html[lang="en"] nav.fixed a:hover,
+html[lang="en"] nav.fixed a.opacity-100,
+html[lang="en"] .fixed.inset-x-0.top-\[70px\] a:not(.bg-\[\#E30613\]):hover {
+  color: #E30613 !important;
+  opacity: 1;
+}
+
+/* Backgrounds */
+html[lang="en"] .bg-\[\#050505\] {
+  background-color: #f8f9fa !important;
+}
+html[lang="en"] .bg-\[\#0d0d0d\] {
+  background-color: #f0f0f0 !important;
+}
+html[lang="en"] .bg-neutral-900 {
+  background-color: #f8f9fa !important;
+}
+html[lang="en"] .bg-white\/5 {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
 html[lang="en"] .bg-\[\#E30613\] {
   color: #ffffff !important;
 }
