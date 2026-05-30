@@ -16,7 +16,7 @@ export default function HeroMonolith({ lang = 'cs' }: HeroMonolithProps) {
 
   return (
     <section 
-      style={{ position: 'relative', zIndex: 20, width: '100%', minHeight: '100svh', overflow: 'visible', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'transparent' }}
+      style={{ position: 'relative', zIndex: 20, width: '100%', height: '100vh', overflow: 'visible', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'transparent' }}
     >
       {/* Corner accents */}
       {[
@@ -29,7 +29,7 @@ export default function HeroMonolith({ lang = 'cs' }: HeroMonolithProps) {
       ))}
 
       {/* HUD coords */}
-      <div style={{ position: 'absolute', top: 92, left: '50%', transform: 'translateX(-50%)', fontFamily: 'monospace', fontSize: 13, color: 'rgba(255,255,255,0.18)', letterSpacing: '0.25em', zIndex: 10, whiteSpace: 'nowrap' }}>
+      <div className="font-mono text-white/20" style={{ position: 'absolute', top: 92, left: '50%', transform: 'translateX(-50%)', fontSize: 13, letterSpacing: '0.25em', zIndex: 10, whiteSpace: 'nowrap' }}>
         50.0755°N · 14.4378°E · PRAGUE, CZ
       </div>
 
@@ -37,7 +37,7 @@ export default function HeroMonolith({ lang = 'cs' }: HeroMonolithProps) {
       <motion.div
         initial={{ opacity: 0, x: -60 }} animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-        style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 220, pointerEvents: 'none', zIndex: 5, overflow: 'hidden' }}
+        style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 220, pointerEvents: 'none', zIndex: 5, overflow: 'hidden', willChange: 'transform, opacity' }}
       >
         <div style={{ position: 'absolute', left: -80, top: '10%', width: 260, height: 6, background: 'linear-gradient(90deg, transparent, rgba(227,6,19,0.55), rgba(227,6,19,0.35), transparent)', transform: 'rotate(-35deg)', transformOrigin: 'left center', filter: 'blur(0.5px)' }} />
         <div style={{ position: 'absolute', left: -80, top: 'calc(10% + 40px)', width: 260, height: 3, background: 'linear-gradient(90deg, transparent, rgba(227,6,19,0.35), rgba(227,6,19,0.2), transparent)', transform: 'rotate(-35deg)', transformOrigin: 'left center', filter: 'blur(0.5px)' }} />
@@ -47,7 +47,7 @@ export default function HeroMonolith({ lang = 'cs' }: HeroMonolithProps) {
       <motion.div
         initial={{ opacity: 0, x: 60 }} animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-        style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 220, pointerEvents: 'none', zIndex: 5, overflow: 'hidden' }}
+        style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 220, pointerEvents: 'none', zIndex: 5, overflow: 'hidden', willChange: 'transform, opacity' }}
       >
         <div style={{ position: 'absolute', right: -80, top: '15%', width: 260, height: 6, background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), rgba(255,255,255,0.08), transparent)', transform: 'rotate(-35deg)', transformOrigin: 'right center', filter: 'blur(0.5px)' }} />
         <div style={{ position: 'absolute', right: -80, top: 'calc(15% + 40px)', width: 260, height: 3, background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.07), rgba(255,255,255,0.04), transparent)', transform: 'rotate(-35deg)', transformOrigin: 'right center', filter: 'blur(0.5px)' }} />
@@ -60,38 +60,34 @@ export default function HeroMonolith({ lang = 'cs' }: HeroMonolithProps) {
       <div style={{ position: 'relative', zIndex: 30, width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', pointerEvents: 'none' }}>
 
         {/* Eyebrow */}
-        <motion.div
-          initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease }}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 12, marginBottom: '2rem', justifyContent: 'center' }}
+        <div
+          className="animate-hero-fade-up"
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 12, marginBottom: '2rem', justifyContent: 'center', willChange: 'transform, opacity' }}
         >
           <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#FFFFFF', display: 'inline-block', animation: 'pulse 2s ease-in-out infinite', boxShadow: '0 0 10px rgba(255,255,255,0.8)' }} />
-          <h1 style={{ fontFamily: 'var(--font-display, "Bebas Neue", sans-serif)', fontSize: 24, letterSpacing: '0.15em', color: '#FFFFFF', textTransform: 'uppercase', fontWeight: 600, margin: 0 }}>
+          <h1 className="text-white font-display uppercase font-semibold m-0" style={{ fontSize: 24, letterSpacing: '0.15em' }}>
             {isEn ? 'Full-Stack E-Commerce Development' : 'Full-Stack E-Commerce Development'}
           </h1>
-        </motion.div>
+        </div>
 
         {/* Massive NIKE Style Typography (Parallax removed) */}
-        <motion.div className="flex flex-col items-center justify-center pointer-events-auto">
+        <div className="flex flex-col items-center justify-center pointer-events-auto">
           {/* L-CODE (White) */}
-          <motion.div
-            initial={{ opacity: 0, x: -150 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            className="text-[clamp(5rem,20vw,16rem)] font-display font-black leading-none text-white tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] select-none"
+          <div
+            style={{ willChange: 'transform, opacity' }}
+            className="animate-hero-left animation-delay-100 text-[clamp(4rem,16vw,12.8rem)] font-display font-black leading-none text-white tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] select-none"
           >
             L-CODE
-          </motion.div>
+          </div>
           
           {/* DYNAMICS (Red) */}
-          <motion.div
-            initial={{ opacity: 0, x: -150 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
-            className="text-[clamp(5rem,20vw,16rem)] font-display font-black leading-none text-[#E30613] tracking-tighter -mt-[0.25em] drop-shadow-[0_0_25px_rgba(227,6,19,0.5)] select-none"
+          <div
+            style={{ willChange: 'transform, opacity' }}
+            className="animate-hero-left animation-delay-250 text-[clamp(4rem,16vw,12.8rem)] font-display font-black leading-none text-[#E30613] tracking-tighter -mt-[0.25em] drop-shadow-[0_0_25px_rgba(227,6,19,0.5)] select-none"
           >
             DYNAMICS
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
       </div>
 
@@ -101,7 +97,7 @@ export default function HeroMonolith({ lang = 'cs' }: HeroMonolithProps) {
         onClick={() => scrollTo('sluzby')}
         style={{ position: 'absolute', bottom: 32, left: '50%', transform: 'translateX(-50%)', zIndex: 40, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, background: 'none', border: 'none', cursor: 'pointer', pointerEvents: 'auto' }}
       >
-        <span style={{ fontFamily: 'var(--font-display, "Bebas Neue", sans-serif)', fontSize: 16, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase' }}>scroll</span>
+        <span className="text-white/20 font-display uppercase" style={{ fontSize: 16, letterSpacing: '0.2em' }}>scroll</span>
         <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
           style={{ width: 1, height: 40, background: 'linear-gradient(to bottom, transparent, #E30613)' }} />
       </motion.button>

@@ -29,79 +29,89 @@ export default function BackgroundCircuits() {
 
         </defs>
 
-        {/* Trace 1: From Cube Center (Approx 78% X, 50% Y) to Left and Up */}
-        <path
-          d="M 78% 50% L 65% 50% L 55% 40% L 35% 40% L 30% 35% L 15% 35%"
-          fill="none"
-          stroke="url(#circuit-gradient)"
-          strokeWidth="1.5"
-          className="stroke-[#E30613]/20"
-        />
-        {/* Animated flow pulse 1 */}
-        <path
-          d="M 78% 50% L 65% 50% L 55% 40% L 35% 40% L 30% 35% L 15% 35%"
-          fill="none"
-          stroke="#E30613"
-          strokeWidth="2"
-          strokeDasharray="30 150"
-          strokeDashoffset="0"
-          className="animate-circuit-dash-fast opacity-80 drop-shadow-[0_0_4px_#E30613]"
-        />
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%">
+          {/* Trace 1: From Cube Center (Approx 78 X, 50 Y) to Left and Up */}
+          <path
+            d="M 78 50 L 65 50 L 55 40 L 35 40 L 30 35 L 15 35"
+            fill="none"
+            stroke="url(#circuit-gradient)"
+            strokeWidth="1.5"
+            className="stroke-[#E30613]/20"
+            vectorEffect="non-scaling-stroke"
+          />
+          {/* Animated flow pulse 1 */}
+          <path
+            d="M 78 50 L 65 50 L 55 40 L 35 40 L 30 35 L 15 35"
+            fill="none"
+            stroke="#E30613"
+            strokeWidth="2"
+            strokeDasharray="30 150"
+            strokeDashoffset="0"
+            className="animate-circuit-dash-fast opacity-80 drop-shadow-[0_0_4px_#E30613]"
+            vectorEffect="non-scaling-stroke"
+          />
 
-        {/* Trace 2: From Cube Center (Approx 78% X, 50% Y) to Left and Down */}
-        <path
-          d="M 78% 50% L 70% 58% L 50% 58% L 42% 66% L 25% 66% L 20% 71%"
-          fill="none"
-          stroke="url(#circuit-gradient)"
-          strokeWidth="1.5"
-          className="stroke-[#E30613]/20"
-        />
-        {/* Animated flow pulse 2 */}
-        <path
-          d="M 78% 50% L 70% 58% L 50% 58% L 42% 66% L 25% 66% L 20% 71%"
-          fill="none"
-          stroke="#E30613"
-          strokeWidth="2"
-          strokeDasharray="40 180"
-          strokeDashoffset="100"
-          className="animate-circuit-dash-slow opacity-80 drop-shadow-[0_0_4px_#E30613]"
-        />
+          {/* Trace 2: From Cube Center (Approx 78 X, 50 Y) to Left and Down */}
+          <path
+            d="M 78 50 L 70 58 L 50 58 L 42 66 L 25 66 L 20 71"
+            fill="none"
+            stroke="url(#circuit-gradient)"
+            strokeWidth="1.5"
+            className="stroke-[#E30613]/20"
+            vectorEffect="non-scaling-stroke"
+          />
+          {/* Animated flow pulse 2 */}
+          <path
+            d="M 78 50 L 70 58 L 50 58 L 42 66 L 25 66 L 20 71"
+            fill="none"
+            stroke="#E30613"
+            strokeWidth="2"
+            strokeDasharray="40 180"
+            strokeDashoffset="100"
+            className="animate-circuit-dash-slow opacity-80 drop-shadow-[0_0_4px_#E30613]"
+            vectorEffect="non-scaling-stroke"
+          />
 
-        {/* Trace 3: Top Right Corner descending to Cube Area */}
-        <path
-          d="M 92% 10% L 85% 17% L 85% 38% L 78% 45%"
-          fill="none"
-          stroke="url(#circuit-gradient)"
-          strokeWidth="1.2"
-          className="stroke-[#E30613]/15"
-        />
-        <path
-          d="M 92% 10% L 85% 17% L 85% 38% L 78% 45%"
-          fill="none"
-          stroke="#E30613"
-          strokeWidth="1.5"
-          strokeDasharray="20 120"
-          strokeDashoffset="50"
-          className="animate-circuit-dash-fast opacity-60"
-        />
+          {/* Trace 3: Top Right Corner descending to Cube Area */}
+          <path
+            d="M 92 10 L 85 17 L 85 38 L 78 45"
+            fill="none"
+            stroke="url(#circuit-gradient)"
+            strokeWidth="1.2"
+            className="stroke-[#E30613]/15"
+            vectorEffect="non-scaling-stroke"
+          />
+          <path
+            d="M 92 10 L 85 17 L 85 38 L 78 45"
+            fill="none"
+            stroke="#E30613"
+            strokeWidth="1.5"
+            strokeDasharray="20 120"
+            strokeDashoffset="50"
+            className="animate-circuit-dash-fast opacity-60"
+            vectorEffect="non-scaling-stroke"
+          />
 
-        {/* Trace 4: Bottom Right Corner ascending to Cube Area */}
-        <path
-          d="M 92% 90% L 85% 83% L 85% 62% L 78% 55%"
-          fill="none"
-          stroke="url(#circuit-gradient)"
-          strokeWidth="1.2"
-          className="stroke-[#E30613]/15"
-        />
-        <path
-          d="M 92% 90% L 85% 83% L 85% 62% L 78% 55%"
-          fill="none"
-          stroke="#E30613"
-          strokeWidth="1.5"
-          strokeDasharray="25 140"
-          strokeDashoffset="80"
-          className="animate-circuit-dash-slow opacity-60"
-        />
+          {/* Trace 4: Bottom Right Corner ascending to Cube Area */}
+          <path
+            d="M 92 90 L 85 83 L 85 62 L 78 55"
+            fill="none"
+            stroke="url(#circuit-gradient)"
+            strokeWidth="1.2"
+            className="stroke-[#E30613]/15"
+            vectorEffect="non-scaling-stroke"
+          />
+          <path
+            d="M 92 90 L 85 83 L 85 62 L 78 55"
+            fill="none"
+            stroke="#E30613"
+            strokeWidth="1.5"
+            strokeDasharray="25 140"
+            strokeDashoffset="80"
+            className="animate-circuit-dash-slow opacity-60"
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
 
         {/* Central Brand Core Node (directly behind Cube) */}
         <circle 

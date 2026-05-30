@@ -23,6 +23,11 @@ export const metadata: Metadata = {
     description: 'Premium IT & Software Development Studio',
     type: 'website',
   },
+  icons: {
+    icon: '/logo.svg',
+    shortcut: '/logo.svg',
+    apple: '/logo.svg',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

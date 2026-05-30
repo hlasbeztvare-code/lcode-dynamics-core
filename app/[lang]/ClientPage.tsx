@@ -8,8 +8,6 @@ import {
   Check, 
   ArrowRight, 
   Lock, 
-  Send,
-  Loader2,
   Menu,
   X,
   Layers,
@@ -22,10 +20,14 @@ import {
 import dynamic from 'next/dynamic'
 import ServiceCard from '@/components/ServiceCard'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
+import Image from 'next/image'
 
-const HeroMonolith = dynamic(() => import('@/components/HeroMonolith'), { ssr: false })
-const ManifestoSidebar = dynamic(() => import('@/components/ManifestoSidebar'), { ssr: false })
-const ReviewsSection = dynamic(() => import('@/components/ReviewsSection'), { ssr: false })
+import HeroMonolith from '@/components/HeroMonolith'
+import ManifestoSidebar from '@/components/ManifestoSidebar'
+import ReviewsSection from '@/components/ReviewsSection'
+
+const PricingCalculator = dynamic(() => import('@/components/PricingCalculator'), { ssr: false })
+const ContactForm = dynamic(() => import('@/components/ContactForm'), { ssr: false })
 
 const renderRedWord = (text: string) => {
   if (!text) return null;
@@ -387,75 +389,17 @@ export default function Page({ params }: PageProps) {
   const lang = params.lang === 'en' ? 'en' : 'cs'
   const isEn = lang === 'en'
   const t = translations[lang]
-  const modulesData = getCalculatorModules(isEn)
 
   // Navigation Menu Mobile State
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [showArrow, setShowArrow] = useState(false)
 
-  // Lead Form States
-  const [formName, setFormName] = useState('')
-  const [formEmail, setFormEmail] = useState('')
-  const [formCompany, setFormCompany] = useState('')
-  const [formMessage, setFormMessage] = useState('')
-  const [formStatus, setFormStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [errorMessage, setErrorMessage] = useState('')
-
-  // Pricing Calculator States (Modules)
-  const [modules, setModules] = useState({
-    customFixes: false,
-    configurator: false,
-    shoptetBypass: false,
-    headlessCore: false,
-    seoAudit: false,
-    maintenance: false,
-  })
-
-  // Dynamic Price Calculation
-  const calculatePrice = () => {
-    let base = 0
-    if (modules.customFixes) base += isEn ? 2500 : 15000
-    if (modules.configurator) base += isEn ? 4500 : 28000
-    if (modules.shoptetBypass) base += isEn ? 3800 : 22000
-    if (modules.headlessCore) base += isEn ? 12000 : 75000
-    if (modules.seoAudit) base += isEn ? 1500 : 9000
-    if (modules.maintenance) base += isEn ? 1200 : 8000
-    return base
-  }
-
-  const [targetPrice, setTargetPrice] = useState(0)
-  const [displayedPrice, setDisplayedPrice] = useState(0)
-
-  // Sync target price when modules state updates
+  // Navigation Menu Mobile State
   useEffect(() => {
-    setTargetPrice(calculatePrice())
-  }, [modules])
+    // Set the language on the html element so CSS overrides (e.g., html[lang="en"]) work
+    document.documentElement.lang = lang;
 
-  // Animate displayed price smoothly (Easing out counter)
-  useEffect(() => {
-    let start = displayedPrice
-    const end = targetPrice
-    if (start === end) return
-
-    const duration = 800
-    let startTime: number | null = null
-
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp
-      const progress = Math.min((timestamp - startTime) / duration, 1)
-      const easeProgress = progress * (2 - progress) // Ease out quad
-      const current = Math.floor(start + (end - start) * easeProgress)
-      setDisplayedPrice(current)
-      if (progress < 1) {
-        requestAnimationFrame(animate)
-      }
-    }
-    requestAnimationFrame(animate)
-  }, [targetPrice])
-
-  // Monitor Scroll for Navbar
-  useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 40) {
         setScrolled(true)
@@ -470,49 +414,6 @@ export default function Page({ params }: PageProps) {
   // Smooth scroll helper
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-  }
-
-  // Handle Form Submission
-  const handleSubmitLead = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!formName || !formEmail) {
-      setErrorMessage(t.formErrorDefault)
-      setFormStatus('error')
-      return
-    }
-
-    setFormStatus('loading')
-    setErrorMessage('')
-
-    try {
-      const response = await fetch('/api/leads', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formName,
-          email: formEmail,
-          company: formCompany,
-          message: formMessage,
-        }),
-      })
-
-      if (!response.ok) {
-        const errData = await response.json()
-        throw new Error(errData.error || 'Request failed.')
-      }
-
-      setFormStatus('success')
-      // Reset form
-      setFormName('')
-      setFormEmail('')
-      setFormCompany('')
-      setFormMessage('')
-    } catch (err: any) {
-      setErrorMessage(err.message || 'Server error.')
-      setFormStatus('error')
-    }
   }
 
   return (
@@ -532,8 +433,9 @@ export default function Page({ params }: PageProps) {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             href="#" 
             className="flex items-center gap-2.5"
+            style={{ willChange: "transform, opacity" }}
           >
-            <img src="/logo-nav.svg" alt="L-Code Logo" fetchPriority="high" className="w-12 h-12 md:w-14 md:h-14 rounded-xl filter drop-shadow-[0_0_15px_rgba(227,6,19,0.3)]" />
+            <Image src="/logo-nav.svg" alt="L-Code Logo" width={56} height={56} priority className="w-12 h-12 md:w-14 md:h-14 rounded-xl filter drop-shadow-[0_0_15px_rgba(227,6,19,0.3)]" />
             <span className="font-display font-black tracking-[0.1em] text-2xl md:text-3xl uppercase text-white flex items-center gap-3">
               L-CODE DYNAMICS
               <span className="w-3 h-3 rounded-full bg-[#E30613] inline-block animate-pulse shadow-[0_0_10px_rgba(227,6,19,0.8)]" />
@@ -649,8 +551,8 @@ export default function Page({ params }: PageProps) {
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.38 }}
-            style={{ color: 'rgba(255,255,255,0.45)', fontSize: 'clamp(1rem, 2vw, 1.25rem)', lineHeight: 1.75, maxWidth: 600, fontWeight: 300, textAlign: 'left' }}
-            className="flex-1"
+            style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)', lineHeight: 1.75, maxWidth: 600, fontWeight: 300, textAlign: 'left' }}
+            className="flex-1 text-white/45"
           >
             {isEn
               ? 'We engineer digital storefronts at the edge of the network. Bypassing platform constraints through pure logic and custom-built integration bridges.'
@@ -668,9 +570,9 @@ export default function Page({ params }: PageProps) {
               { value: '150K+', label: isEn ? 'Products Synced' : 'Produktů' },
               { value: '12ms', label: isEn ? 'Edge Latency' : 'Edge latence' },
             ].map((s, i) => (
-              <div key={i} style={{ paddingLeft: i === 0 ? 0 : 24, paddingRight: 24, borderLeft: i === 0 ? 'none' : '1px solid rgba(255,255,255,0.08)' }}>
-                <div style={{ fontFamily: 'var(--font-display, "Bebas Neue", sans-serif)', fontSize: 'clamp(2rem, 4vw, 3rem)', color: '#fff', lineHeight: 1 }}>{s.value}</div>
-                <div style={{ fontFamily: 'monospace', fontSize: 16, fontWeight: 500, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.75)', textTransform: 'uppercase', marginTop: 8 }}>{s.label}</div>
+              <div key={i} className="border-l border-white/10" style={{ paddingLeft: i === 0 ? 0 : 24, paddingRight: 24, borderLeft: i === 0 ? 'none' : undefined }}>
+                <div className="text-white font-display" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', lineHeight: 1 }}>{s.value}</div>
+                <div className="text-white/75 font-mono uppercase font-medium mt-2" style={{ fontSize: 16, letterSpacing: '0.15em' }}>{s.label}</div>
               </div>
             ))}
           </motion.div>
@@ -687,7 +589,7 @@ export default function Page({ params }: PageProps) {
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 10,
               padding: '1rem 2.5rem',
-              background: '#E30613', color: '#fff',
+              background: '#E30613', color: '#ffffff',
               fontFamily: 'monospace', fontSize: 13, fontWeight: 700,
               letterSpacing: '0.25em', textTransform: 'uppercase',
               border: 'none', cursor: 'pointer',
@@ -704,18 +606,16 @@ export default function Page({ params }: PageProps) {
             initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.57 }}
             onClick={() => scrollToSection('reference')}
-            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.5)'; (e.currentTarget as HTMLButtonElement).style.color = '#fff' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.12)'; (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.6)' }}
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 10,
               padding: '1rem 2.5rem',
-              background: 'transparent', color: 'rgba(255,255,255,0.6)',
+              background: 'transparent',
               fontFamily: 'monospace', fontSize: 13, fontWeight: 700,
               letterSpacing: '0.25em', textTransform: 'uppercase',
-              border: '1px solid rgba(255,255,255,0.12)', cursor: 'pointer',
+              cursor: 'pointer',
               clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))',
-              transition: 'border-color 0.2s ease, color 0.2s ease',
             }}
+            className="text-white/60 border border-white/10 hover:border-white/50 hover:text-white transition-colors duration-200"
           >
             {isEn ? 'Our Work' : 'Naše výsledky'}
           </motion.button>
@@ -813,7 +713,7 @@ export default function Page({ params }: PageProps) {
             className="group border border-white/10 bg-white/5 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex flex-col sm:flex-row items-center gap-6 transition-all duration-500 hover:border-[#E30613]/30 hover:bg-white/10"
           >
             <div className="w-40 h-40 md:w-52 md:h-52 rounded-full overflow-hidden flex-shrink-0 bg-white/10 border border-white/10">
-              <img src="/jan.jpeg" alt="Jan Lančarič" loading="lazy" decoding="async" className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500" />
+              <Image src="/jan.jpeg" alt="Jan Lančarič" width={208} height={208} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500" />
             </div>
             <div>
               <span className="font-mono text-[9px] text-[#E30613] tracking-widest block uppercase mb-1">{t.janRole}</span>
@@ -831,7 +731,7 @@ export default function Page({ params }: PageProps) {
             className="group border border-white/10 bg-white/5 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex flex-col sm:flex-row items-center gap-6 transition-all duration-500 hover:border-[#E30613]/30 hover:bg-white/10"
           >
             <div className="w-40 h-40 md:w-52 md:h-52 rounded-full overflow-hidden flex-shrink-0 bg-white/10 border border-white/10">
-              <img src="/josef.webp" alt="Josef Dlouhý" loading="lazy" decoding="async" className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500" />
+              <Image src="/josef.webp" alt="Josef Dlouhý" width={208} height={208} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500" />
             </div>
             <div>
               <span className="font-mono text-[9px] text-[#E30613] tracking-widest block uppercase mb-1">{t.josefRole}</span>
@@ -1203,297 +1103,11 @@ export default function Page({ params }: PageProps) {
           <ArrowUpRight size={16} />
         </motion.button>
       </div>
-      {/* Interactive Pricing Calculator Section - Lean & Mean */}
-      <section id="kalkulacka" className="relative z-10 max-w-7xl mx-auto px-6 lg:px-16 py-20 calc-overlay text-white rounded-3xl my-24 border border-white/10 shadow-2xl overflow-hidden">
-        {/* Glow vector backdrops */}
-        <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-[#E30613]/5 blur-[80px] pointer-events-none" />
 
-        <div className="max-w-3xl mx-auto relative z-10">
-          <div className="mb-12 overflow-hidden">
-            <motion.span 
-              initial={{ opacity: 0, x: -70 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="text-xs font-bold text-[#E30613] tracking-[0.2em] uppercase block mb-3"
-            >
-              {t.calcTag}
-            </motion.span>
-            <motion.h2 
-              initial={{ opacity: 0, x: 70 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="text-3xl md:text-5xl font-display font-black uppercase tracking-tight mb-6"
-            >
-              {renderRedWord(t.calcTitle)}
-            </motion.h2>
-            <motion.p 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-              className="text-white font-bold text-sm font-bold leading-relaxed"
-            >
-              {t.calcDesc}
-            </motion.p>
-          </div>
-
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12"
-          >
-            {/* KARTA 1 */}
-            <div 
-              onClick={() => setModules({...modules, customFixes: !modules.customFixes})} 
-              className={`p-5 border cursor-pointer select-none transition-all duration-300 rounded-xl ${modules.customFixes ? 'border-[#E30613] bg-white/10 backdrop-blur-xl shadow-[0_8px_32px_rgba(227,6,19,0.2)]' : 'border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-white/30'}`}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-bold uppercase tracking-wide">{t.calcMod1Name}</span>
-                <span className="text-xs text-[#E30613] font-mono">+{isEn ? '2,500' : '15 000'} {t.calcCurrency}</span>
-              </div>
-              <p className="text-xs text-neutral-500 leading-normal font-bold">
-                {t.calcMod1Desc}
-              </p>
-            </div>
-
-            {/* KARTA 2 */}
-            <div 
-              onClick={() => setModules({...modules, configurator: !modules.configurator})} 
-              className={`p-5 border cursor-pointer select-none transition-all duration-300 rounded-xl ${modules.configurator ? 'border-[#E30613] bg-white/10 backdrop-blur-xl shadow-[0_8px_32px_rgba(227,6,19,0.2)]' : 'border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-white/30'}`}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-bold uppercase tracking-wide">{t.calcMod2Name}</span>
-                <span className="text-xs text-[#E30613] font-mono">+{isEn ? '4,500' : '28 000'} {t.calcCurrency}</span>
-              </div>
-              <p className="text-xs text-neutral-500 leading-normal font-bold">
-                {t.calcMod2Desc}
-              </p>
-            </div>
-
-            {/* KARTA 3 */}
-            <div 
-              onClick={() => setModules({...modules, shoptetBypass: !modules.shoptetBypass})} 
-              className={`p-5 border cursor-pointer select-none transition-all duration-300 rounded-xl ${modules.shoptetBypass ? 'border-[#E30613] bg-white/10 backdrop-blur-xl shadow-[0_8px_32px_rgba(227,6,19,0.2)]' : 'border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-white/30'}`}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-bold uppercase tracking-wide">{t.calcMod3Name}</span>
-                <span className="text-xs text-[#E30613] font-mono">+{isEn ? '3,800' : '22 000'} {t.calcCurrency}</span>
-              </div>
-              <p className="text-xs text-neutral-500 leading-normal font-bold">
-                {t.calcMod3Desc}
-              </p>
-            </div>
-
-            {/* KARTA 4 */}
-            <div 
-              onClick={() => setModules({...modules, headlessCore: !modules.headlessCore})} 
-              className={`p-5 border cursor-pointer select-none transition-all duration-300 rounded-xl ${modules.headlessCore ? 'border-[#E30613] bg-white/10 backdrop-blur-xl shadow-[0_8px_32px_rgba(227,6,19,0.2)]' : 'border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-white/30'}`}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-bold uppercase tracking-wide">{t.calcMod4Name}</span>
-                <span className="text-xs text-[#E30613] font-mono">+{isEn ? '12,000' : '75 000'} {t.calcCurrency}</span>
-              </div>
-              <p className="text-xs text-neutral-500 leading-normal font-bold">
-                {t.calcMod4Desc}
-              </p>
-            </div>
-
-            {/* KARTA 5 */}
-            <div 
-              onClick={() => setModules({...modules, seoAudit: !modules.seoAudit})} 
-              className={`p-5 border cursor-pointer select-none transition-all duration-300 rounded-xl ${modules.seoAudit ? 'border-[#E30613] bg-white/10 backdrop-blur-xl shadow-[0_8px_32px_rgba(227,6,19,0.2)]' : 'border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-white/30'}`}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-bold uppercase tracking-wide">{t.calcMod5Name}</span>
-                <span className="text-xs text-[#E30613] font-mono">+{isEn ? '1,500' : '9 000'} {t.calcCurrency}</span>
-              </div>
-              <p className="text-xs text-neutral-500 leading-normal font-bold">
-                {t.calcMod5Desc}
-              </p>
-            </div>
-
-            {/* KARTA 6 */}
-            <div 
-              onClick={() => setModules({...modules, maintenance: !modules.maintenance})} 
-              className={`p-5 border cursor-pointer select-none transition-all duration-300 rounded-xl ${modules.maintenance ? 'border-[#E30613] bg-white/10 backdrop-blur-xl shadow-[0_8px_32px_rgba(227,6,19,0.2)]' : 'border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-white/30'}`}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-bold uppercase tracking-wide">{t.calcMod6Name}</span>
-                <span className="text-xs text-[#E30613] font-mono">+{isEn ? '1,200' : '8 000'} {t.calcCurrency}/{isEn ? 'mo' : 'měs'}</span>
-              </div>
-              <p className="text-xs text-neutral-500 leading-normal font-bold">
-                {t.calcMod6Desc}
-              </p>
-            </div>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6"
-          >
-            <div>
-              <span className="text-xs text-white font-bold font-bold uppercase tracking-wider block mb-1">
-                {t.calcBudgetLabel}
-              </span>
-              <span className="text-4xl font-black tracking-tight text-white">
-                {displayedPrice.toLocaleString(isEn ? 'en-US' : 'cs-CZ')} {t.calcCurrency}
-              </span>
-            </div>
-            <div className="bg-[#E30613]/10 border border-[#E30613] text-[#E30613] text-[10px] font-bold tracking-widest uppercase px-4 py-2">
-              {t.calcShieldTitle}
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      <PricingCalculator t={t} isEn={isEn} />
 
       {/* Lead Capture Form Section */}
-      <section id="kontakt" className="max-w-4xl mx-auto px-6 md:px-12 py-24 md:py-32 border-t border-white/[0.04]">
-        <div className="mb-12 text-center overflow-hidden">
-          <motion.span 
-            initial={{ opacity: 0, x: -70 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="font-mono text-[9px] text-[#E30613] tracking-[0.3em] uppercase block mb-3"
-          >
-            {t.contactTag}
-          </motion.span>
-          <motion.h2 
-            initial={{ opacity: 0, x: 70 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-3xl md:text-5xl font-display font-extrabold tracking-tight uppercase text-white mb-6"
-          >
-            {renderRedWord(t.contactTitle)}
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            className="text-white font-bold leading-relaxed max-w-xl mx-auto"
-          >
-            {t.contactDesc}
-          </motion.p>
-        </div>
-
-        {/* Lead Form */}
-        <motion.form 
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.9 }}
-          onSubmit={handleSubmitLead} 
-          className="bg-white/5 backdrop-blur-2xl border border-white/10 p-8 md:p-12 rounded-3xl flex flex-col gap-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex flex-col gap-2">
-              <label htmlFor="name" className="font-mono text-[9px] text-white tracking-widest uppercase">{t.formLabelName}</label>
-              <input
-                id="name"
-                type="text"
-                value={formName}
-                onChange={(e) => setFormName(e.target.value)}
-                placeholder={t.formPlaceholderName}
-                required
-                disabled={formStatus === 'loading'}
-                className="w-full px-5 py-4 bg-white/10 border border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-[#E30613] focus:bg-white/20 transition-all disabled:opacity-40 shadow-inner"
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label htmlFor="email" className="font-mono text-[9px] text-white tracking-widest uppercase">{t.formLabelEmail}</label>
-              <input
-                id="email"
-                type="email"
-                value={formEmail}
-                onChange={(e) => setFormEmail(e.target.value)}
-                placeholder={t.formPlaceholderEmail}
-                required
-                disabled={formStatus === 'loading'}
-                className="w-full px-5 py-4 bg-white/10 border border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-[#E30613] focus:bg-white/20 transition-all disabled:opacity-40 shadow-inner"
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label htmlFor="company" className="font-mono text-[9px] text-white tracking-widest uppercase">{t.formLabelCompany}</label>
-            <input
-              id="company"
-              type="text"
-              value={formCompany}
-              onChange={(e) => setFormCompany(e.target.value)}
-              placeholder={t.formPlaceholderCompany}
-              disabled={formStatus === 'loading'}
-              className="w-full px-5 py-4 bg-white/10 border border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-[#E30613] focus:bg-white/20 transition-all disabled:opacity-40 shadow-inner"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label htmlFor="message" className="font-mono text-[9px] text-white tracking-widest uppercase">{t.formLabelMessage}</label>
-            <textarea
-              id="message"
-              rows={4}
-              value={formMessage}
-              onChange={(e) => setFormMessage(e.target.value)}
-              placeholder={t.formPlaceholderMessage}
-              disabled={formStatus === 'loading'}
-              className="w-full px-5 py-4 bg-white/10 border border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-[#E30613] focus:bg-white/20 transition-all resize-none disabled:opacity-40 shadow-inner"
-            />
-          </div>
-
-          {/* Feedback Messages */}
-          <AnimatePresence>
-            {formStatus === 'error' && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl text-xs font-bold"
-              >
-                {errorMessage}
-              </motion.div>
-            )}
-
-            {formStatus === 'success' && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl text-xs font-bold flex items-center gap-2"
-              >
-                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                {t.formSuccess}
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          <button
-            type="submit"
-            disabled={formStatus === 'loading'}
-            className="w-full py-4 rounded-full bg-black text-white hover:bg-[#E30613] font-mono text-[10px] tracking-[0.2em] uppercase transition-all duration-300 flex items-center justify-center gap-2 disabled:bg-gray-200 disabled:text-white"
-          >
-            {formStatus === 'loading' ? (
-              <>
-                <Loader2 size={12} className="animate-spin" />
-                {t.formBtnSubmitting}
-              </>
-            ) : (
-              <>
-                <Send size={10} />
-                {t.formBtnSubmit}
-              </>
-            )}
-          </button>
-        </motion.form>
-      </section>
+      <ContactForm t={t} />
 
       {/* Footer / Kontakt */}
       <footer id="kontakt" className="border-t border-white/10 bg-[#050505] text-white font-sans py-20 relative overflow-hidden">
@@ -1510,7 +1124,7 @@ export default function Page({ params }: PageProps) {
               transition={{ duration: 0.8 }}
               className="flex flex-col items-start gap-4"
             >
-              <img src="/logo-footer.png" alt="L-Code Dynamics" className="h-20 w-auto object-contain mb-2" />
+              <Image src="/logo-footer.png" alt="L-Code Dynamics" width={300} height={80} className="h-20 w-auto object-contain mb-2" />
               <p className="text-white/60 text-sm font-light leading-relaxed">
                 Zero Error Tolerance // Architecture<br/>
                 Engineered in Prague, Czechia.
@@ -1579,7 +1193,6 @@ export default function Page({ params }: PageProps) {
               © {new Date().getFullYear()} L-Code Dynamics. {t.footerPartner ? `${t.footerPartner}: ${t.footerPartnerRole}` : 'Všechna práva vyhrazena.'}
             </div>
             <div className="flex gap-4">
-               <span className="px-3 py-1 bg-white/5 border border-white/10 text-white/50 text-[9px] uppercase tracking-widest font-mono rounded-sm">Shoptet Premium Partner</span>
             </div>
           </div>
         </div>

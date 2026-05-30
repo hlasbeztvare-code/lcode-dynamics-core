@@ -1,0 +1,3 @@
+module.exports=[60350,a=>{"use strict";var b=a.i(87924),c=a.i(72131),d=a.i(50944);a.s(["default",0,function(){let a=(0,d.useRouter)();return(0,c.useEffect)(()=>{a.replace("/cs")},[a]),(0,b.jsx)("div",{style:{background:"#050505",minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center"},children:(0,b.jsx)("div",{style:{color:"rgba(255,255,255,0.3)",fontFamily:"monospace",fontSize:"13px",letterSpacing:"0.2em"},children:"Redirecting..."})})}])}];
+
+//# sourceMappingURL=app_page_tsx_0es_sk2._.js.map
